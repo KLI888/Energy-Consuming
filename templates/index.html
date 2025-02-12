@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Energy Bill Predictor</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="bg-light">
+    <div class="container">
+        <header class="d-flex justify-content-between align-items-center py-3">
+            <h1 class="text-primary">Energy Bill Predictor</h1>
+            <button id="toggle-theme" class="btn btn-dark">🌙 Toggle Theme</button>
+        </header>
+
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <h2>Your Appliances</h2>
+                <ul id="appliance-list" class="list-group">
+                    {% for appliance, hours in appliances.items() %}
+                        <li class="list-group-item">
+                            🟢 {{ appliance }} - {{ hours }} hrs/day
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <h2>Add Appliance</h2>
+                <form id="add-appliance-form">
+                    <div class="form-group">
+                        <label for="appliance">Select Appliance:</label>
+                        <select class="form-control" id="appliance" required>
+                            <option value="Fan">Fan</option>
+                            <option value="Air Conditioner">Air Conditioner</option>
+                            <option value="Refrigerator">Refrigerator</option>
+                            <option value="TV">TV</option>
+                            <option value="Washing Machine">Washing Machine</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="hours">Usage (hours/day):</label>
+                        <input type="number" class="form-control" id="hours" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Appliance</button>
+                </form>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-12">
+                <h2>Predict Your Next Bill</h2>
+                <form id="predict-form">
+                    <div class="form-group">
+                        <label for="prev_bill1">Enter Last 3 Months' Bills (₹):</label>
+                        <input type="number" class="form-control" id="prev_bill1" required>
+                        <input type="number" class="form-control" id="prev_bill2" required>
+                        <input type="number" class="form-control" id="prev_bill3" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">Predict Bill</button>
+                </form>
+                <div id="prediction-result" class="mt-3"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</body>
+</html>

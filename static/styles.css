@@ -1,0 +1,22 @@
+body {
+    background-color: #f4f4f9;
+    color: #333;
+}
+
+.bg-dark {
+    background-color: #2c3e50 !important;
+}
+
+.bg-light {
+    background-color: #ecf0f1 !important;
+}
+
+button {
+    cursor: pointer;
+}
+
+#prediction-result {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #27ae60;
+}
