@@ -7,6 +7,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 import pandas as pd
 from tkinter import *
+from tkinter import ttk
 
 # -------------------- Theme Configuration --------------------
 LIGHT_THEME = {
@@ -91,6 +92,7 @@ root = tk.Tk()
 root.title("Energy Bill Predictor")
 root.geometry("1024x700")
 style = ttk.Style()
+root.config(bg="lightblue")
 
 # -------------------- Frames Setup --------------------
 frames = {
@@ -105,6 +107,7 @@ frames = {
 print("Available keys in frames:", frames.keys())
 
 frames["home"].pack(expand=True, fill="both")
+# frames["home"].grid(row=0, column=0, sticky="nsew")
 
 # -------------------- Navigation Menu --------------------
 menu_buttons = [
@@ -122,9 +125,17 @@ create_navigation_bar(frames["home"])
 
 ttk.Label(frames["home"], text="Welcome to Energy Bill Predictor", font=("Arial", 24, "bold")).pack(pady=20)
 
-for text, frame_name in menu_buttons:
-    ttk.Button(frames["home"], text=text, command=lambda f=frame_name: navigate_to_frame(f)).pack(pady=10)
+image = PhotoImage(file="images/save.png")
+# Create a label to display the image
+image_label = tk.Label(frames["home"], image=image)
+# image_label.place(x=100, y=100)
+image_label.pack(pady=20)
 
+
+style.configure("TButton", font=("Arial", 12))
+for text, frame_name in menu_buttons:
+    ttk.Button(frames["home"], text=text, style="TButton", command=lambda f=frame_name: navigate_to_frame(f)) \
+        .pack(side="left", padx=10, pady=5)
 # -------------------- Add Appliance Page --------------------
 create_navigation_bar(frames["add_appliance"])
 
@@ -192,15 +203,55 @@ def predict_bill():
 ttk.Button(frames["predict"], text="Predict Bill", command=predict_bill).pack(pady=10)
 tk.Label(frames["predict"], textvariable=result_text, font=("Arial", 14, "bold")).pack(pady=10)
 
+
+
+instructions = [
+        "1. The user is creating a `GameRound` model instance every 30 seconds and requires their view to always display the latest instance.",
+        "2. The user is creating a `GameRound` model instance every 30 seconds and requires their view to always display the latest instance.",
+        "3. The user is creating a `GameRound` model instance every 30 seconds and requires their view to always display the latest instance."
+    ]
+
+    # Display each instruction in a label
+for idx, instruction in enumerate(instructions):
+        label = tk.Label(frames["predict"], text=instruction, padx=10, pady=10, font=("Arial", 10))
+        label.pack()
+
+
+
 # -------------------- Chatbot Page --------------------
 create_navigation_bar(frames["chatbot"])
 
+# chatbot_text = tk.Text(frames["chatbot"], height=15, width=70, font=("Arial", 12))
+# chatbot_text.pack(pady=10)
+
+# question_var = tk.StringVar()
+# tk.Entry(frames["chatbot"], textvariable=question_var, font=("Arial", 12)).pack(pady=5)
+
+# def chatbot_reply():
+#     question = question_var.get().lower()
+#     answers = {
+#         "how to save energy?": "Turn off unused appliances, use LED bulbs, and limit AC usage.",
+#         "why is my bill high?": "Check for high-consumption appliances and reduce their usage.",
+#     }
+#     chatbot_text.insert(tk.END, f"You: {question}\n")
+#     chatbot_text.insert(tk.END, f"Bot: {answers.get(question, 'I am not sure, please check with your provider.')}\n\n")
+
+# ttk.Button(frames["chatbot"], text="Ask", command=chatbot_reply).pack(pady=10)
+
+# Create instruction label for chatbot usage
+instruction_label = tk.Label(frames["chatbot"], text="Welcome to the Chatbot! Type your question below and click 'Ask'.",
+                             font=("Arial", 14), anchor="w")
+instruction_label.pack(pady=10, padx=20)
+
+# Chatbot Text Display
 chatbot_text = tk.Text(frames["chatbot"], height=15, width=70, font=("Arial", 12))
 chatbot_text.pack(pady=10)
 
+# Entry field for user's question
 question_var = tk.StringVar()
 tk.Entry(frames["chatbot"], textvariable=question_var, font=("Arial", 12)).pack(pady=5)
 
+# Function to handle chatbot reply
 def chatbot_reply():
     question = question_var.get().lower()
     answers = {
@@ -210,7 +261,20 @@ def chatbot_reply():
     chatbot_text.insert(tk.END, f"You: {question}\n")
     chatbot_text.insert(tk.END, f"Bot: {answers.get(question, 'I am not sure, please check with your provider.')}\n\n")
 
+# Ask Button
 ttk.Button(frames["chatbot"], text="Ask", command=chatbot_reply).pack(pady=10)
+
+instructions = [
+        "1. The user is creating a `GameRound` model instance every 30 seconds and requires their view to always display the latest instance.",
+        "2. The user is creating a `GameRound` model instance every 30 seconds and requires their view to always display the latest instance.",
+        "3. The user is creating a `GameRound` model instance every 30 seconds and requires their view to always display the latest instance."
+    ]
+
+    # Display each instruction in a label
+for idx, instruction in enumerate(instructions):
+        label = tk.Label(frames["chatbot"], text=instruction, padx=10, pady=10, font=("Arial", 10))
+        label.pack()
+
 
 # -------------------- Usage Report Page --------------------
 create_navigation_bar(frames["report"])
